@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+    Frank 的个人网站模板（单文件，可直接编辑）
+    用法：
+    1) 直接修改下方“可编辑区”文本
+    2) 如需添加项目，改 projects 数组
+    3) 保存为 index.html 后可直接打开预览
+  -->
+  <title>Frank | Personal Website</title>
+  <meta name="description" content="Frank 的个人主页：项目、经历与联系方式" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a33;
+      --text: #e8ecff;
+      --muted: #a6b0d8;
+      --line: #2a376a;
+      --brand: #7c9cff;
+      --brand-2: #5de2e7;
+      --ok: #61d095;
+      --shadow: 0 10px 30px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+    :root.light {
+      --bg: #f5f7ff;
+      --panel: #ffffff;
+      --text: #101736;
+      --muted: #4f5a86;
+      --line: #dbe2ff;
+      --brand: #4c6fff;
+      --brand-2: #13b8bf;
+      --ok: #0f9d68;
+      --shadow: 0 10px 25px rgba(32, 53, 124, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at 0% 0%, rgba(124,156,255,.18), transparent 40%),
+                  radial-gradient(circle at 100% 0%, rgba(93,226,231,.15), transparent 35%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container { width: min(1100px, 92vw); margin: 0 auto; }
+
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 66px;
+    }
+    .logo {
+      font-weight: 800; letter-spacing: .4px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .nav-links { display: flex; gap: 16px; align-items: center; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-weight: 600; font-size: 14px;
+      padding: 8px 10px; border-radius: 10px;
+    }
+    .nav-links a:hover { color: var(--text); background: color-mix(in oklab, var(--panel) 80%, transparent); }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+    }
+    .btn.primary {
+      border: 0;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      color: white;
+    }
+
+    section { padding: 56px 0; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      align-items: center;
+      padding-top: 34px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: color-mix(in oklab, var(--panel) 90%, transparent);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--ok); box-shadow: 0 0 0 5px color-mix(in oklab, var(--ok) 25%, transparent); }
+    h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; margin: 0 0 10px; }
+    .lead { color: var(--muted); font-size: clamp(16px, 2.2vw, 20px); margin: 0 0 22px; }
+    .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .card {
+      background: color-mix(in oklab, var(--panel) 94%, transparent);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .profile {
+      padding: 22px;
+    }
+    .avatar {
+      width: 84px; height: 84px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 30px; font-weight: 900;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: white;
+      margin-bottom: 12px;
+    }
+    .mini {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .section-title { margin: 0 0 14px; font-size: 28px; }
+    .section-sub { margin: 0 0 22px; color: var(--muted); }
+
+    .about {
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      border: 1px solid var(--line);
+      background: color-mix(in oklab, var(--panel) 85%, transparent);
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .project {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .project h3 { margin: 0; font-size: 18px; }
+    .project p { margin: 0; color: var(--muted); font-size: 14px; }
+    .project .meta { display: flex; justify-content: space-between; align-items: center; }
+    .project a {
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .timeline {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: color-mix(in oklab, var(--panel) 88%, transparent);
+    }
+    .time { color: var(--muted); font-weight: 700; font-size: 13px; }
+
+    .contact {
+      padding: 24px;
+      display: grid;
+      gap: 8px;
+    }
+    .contact a { color: var(--brand-2); text-decoration: none; font-weight: 700; }
+
+    footer { padding: 30px 0 46px; color: var(--muted); text-align: center; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .nav-links a { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-wrap">
+      <!-- 可编辑区：站点标题 -->
+      <div class="logo">FRANK.W</div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+        <button class="btn" id="themeBtn" aria-label="toggle theme">🌗 Theme</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="badge"><span class="dot"></span> Open to Internship / Collaboration</div>
+        <!-- 可编辑区：主标题与一句话介绍 -->
+        <h1>Hi, I’m Frank.<br/>I build with <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent;">Data × Product</span>.</h1>
+        <p class="lead">UCL Social Science with Data Science. I turn messy data into clear business decisions.</p>
+        <div class="cta">
+          <!-- 可编辑区：按钮链接 -->
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="mailto:your_email@example.com">Email Me</a>
+        </div>
+      </div>
+
+      <aside class="card profile">
+        <div class="avatar">F</div>
+        <!-- 可编辑区：右侧个人信息 -->
+        <h3 style="margin:0 0 8px;">Frank (Zipu Wang)</h3>
+        <p class="mini">📍 London / Shenzhen</p>
+        <p class="mini">🎓 UCL · Social Science with Data Science</p>
+        <p class="mini">🧠 Interests: RecSys, Growth Analytics, Causal Inference</p>
+      </aside>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <p class="section-sub">Quick intro and your strengths.</p>
+      <div class="card about">
+        <!-- 可编辑区：About 文案 -->
+        <p>
+          I’m a data-driven builder focusing on recommendation, experimentation, and business analytics.
+          I enjoy bridging technical models with product execution and turning insights into real impact.
+        </p>
+        <div class="tags">
+          <!-- 可编辑区：技能标签 -->
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Experiment Design</span>
+          <span class="tag">Causal Inference</span>
+          <span class="tag">Data Storytelling</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-sub">Selected works. Keep it concise and outcome-oriented.</p>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </section>
+
+    <section id="experience">
+      <h2 class="section-title">Experience</h2>
+      <p class="section-sub">A short timeline of your journey.</p>
+      <div class="card timeline">
+        <!-- 可编辑区：经历时间线 -->
+        <div class="row">
+          <div class="time">2025 - 2026</div>
+          <div><strong>Tencent (QQ Browser Games)</strong><br/>Built automated attribution pipeline for weekly business reporting (Surprise / EP).</div>
+        </div>
+        <div class="row">
+          <div class="time">2025</div>
+          <div><strong>TikTok Shop (Data Analyst Intern)</strong><br/>Creator scoring and incentive optimization with measurable ROI uplift.</div>
+        </div>
+        <div class="row">
+          <div class="time">Now</div>
+          <div><strong>UCL Student</strong><br/>Social Science with Data Science, focusing on ML + product impact.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">Make it easy for recruiters and collaborators to reach you.</p>
+      <div class="card contact">
+        <!-- 可编辑区：联系方式 -->
+        <div>Email: <a href="mailto:your_email@example.com">your_email@example.com</a></div>
+        <div>GitHub: <a href="https://github.com/yourname" target="_blank" rel="noreferrer">github.com/yourname</a></div>
+        <div>LinkedIn: <a href="https://www.linkedin.com/in/yourname" target="_blank" rel="noreferrer">linkedin.com/in/yourname</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <!-- 可编辑区：页脚 -->
+    © <span id="year"></span> Frank. Built with focus and good vibes.
+  </footer>
+
+  <script>
+    // ===== 可编辑区：项目列表（最常改的地方） =====
+    const projects = [
+      {
+        title: "Game Weekly Attribution Automation",
+        desc: "Automated weekly anomaly attribution using Surprise/EP across channels and user segments.",
+        tech: "Python · SQL · Excel",
+        link: "#"
+      },
+      {
+        title: "Creator Incentive Optimization",
+        desc: "Designed creator scoring + budget allocation logic to improve campaign ROI.",
+        tech: "Python · Causal/Uplift",
+        link: "#"
+      },
+      {
+        title: "Charging Station Power Forecast",
+        desc: "Hybrid LSTM + Transformer with federated setup for time-series demand prediction.",
+        tech: "PyTorch · Flower",
+        link: "#"
+      }
+    ];
+
+    const grid = document.getElementById("projectsGrid");
+    projects.forEach(p => {
+      const el = document.createElement("article");
+      el.className = "card project";
+      el.innerHTML = `
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="meta">
+          <small style="color:var(--muted)">${p.tech}</small>
+          <a href="${p.link}" target="_blank" rel="noreferrer">View ↗</a>
+        </div>
+      `;
+      grid.appendChild(el);
+    });
+
+    const root = document.documentElement;
+    const themeBtn = document.getElementById("themeBtn");
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") root.classList.add("light");
+
+    themeBtn.addEventListener("click", () => {
+      root.classList.toggle("light");
+      localStorage.setItem("theme", root.classList.contains("light") ? "light" : "dark");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
